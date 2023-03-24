@@ -17,7 +17,7 @@
           label-width="100px"
           class="demo-ruleForm"
         >
-          <el-form-item label="密码" prop="pass" class="nihao">
+          <el-form-item label="密码" prop="pass">
             <el-input
               type="password"
               v-model="ruleForm.pass"
