@@ -54,8 +54,8 @@
             </div>
           </div>
         </li>
-            <!-- ************************ 登录注册页面跳转*************************** -->
-<!-- 
+        <!-- ************************ 登录注册页面跳转*************************** -->
+        <!-- 
         <li >
           <span class="nav-swaper-listscolor"
             ><a href="" target="_blank">登录</a></span
@@ -67,14 +67,17 @@
         </li> -->
         <!-- 用来显示登录成功后的样式 -->
         <li class="userCenter">
-            <div class="userCenter-avatar">
-                <img src="" alt="">
-            </div>
-            <div class="showUser">
-                <li>帖子</li>
-                <li>个人信息</li>
-                <li>退出</li>
-            </div>
+          <div class="userCenter-avatar">
+            
+            <el-dropdown>
+              <span class="el-dropdown-link"> <img src="@/assets/boy.png"  /> </span>
+              <el-dropdown-menu slot="dropdown" size="mini">
+                <el-dropdown-item>帖子</el-dropdown-item>
+                <el-dropdown-item>作品</el-dropdown-item>
+                <el-dropdown-item divided>退出</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </div>
         </li>
       </div>
     </nav>
@@ -89,7 +92,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
 .nav-swaper {
   font-size: 16px;
   margin-top: 20px;
@@ -108,28 +110,40 @@ export default {
     }
   }
 
-//  用户登录成功后头像显示
-.userCenter{
+  //  用户登录成功后头像显示
+  .userCenter {
     width: 30px;
     height: 30px;
     border-radius: 50%;
     border: 1px solid gray;
+    margin-right: 30px;
     // 图片的大小设置
-    .userCenter-avatar{
+    .userCenter-avatar {
+        img{
+            width:30px;
+            height: 30px;
+            margin-right: 20px;
+        }
+        .el-dropdown{
+             margin-left: 0px;
+        }
 
+        .el-dropdown-menu{
+                width:10px;
+            }
     }
 
     // 展示操作信息
-    .showUser{
-        li{
-            display: inline-block;
-            width: 40px;
-            height: 30px;
-            background: gray;
-            border: 1px solid snow;
-        }
+    .showUser {
+      li {
+        display: inline-block;
+        width: 40px;
+        height: 30px;
+        background: gray;
+        border: 1px solid snow;
+      }
     }
-}
+  }
   .nav-swaper-listscolor:hover {
     a {
       color: orange;
