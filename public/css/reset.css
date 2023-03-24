@@ -18,6 +18,11 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
     text-decoration: none;
+      list-style: none;
+    text-decoration:none;
+    border: none;
+    outline: none;
+    color: black;
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
@@ -44,3 +49,15 @@ table {
 	border-spacing: 0;
 }
 
+*{
+    margin: 0;
+    margin-left: 10px;
+    padding: 0;
+    list-style: none;
+    text-decoration:none;
+    border: none;
+    outline: none;
+    color: black;
+    /* // overflow: hidden; */
+   
+}
