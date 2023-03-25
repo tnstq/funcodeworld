@@ -23,17 +23,17 @@
           label-width="100px"
           class="demo-ruleForm"
         >
-          <el-form-item label="账号" prop="userName">
+          <el-form-item label="账号" prop="username">
             <el-input
               type="input"
-              v-model.number="ruleForm.userName"
+              v-model.number="ruleForm.username"
               autocomplete="off"
             ></el-input>
           </el-form-item>
-          <el-form-item label="密码" prop="pass">
+          <el-form-item label="密码" prop="password">
             <el-input
               type="password"
-              v-model="ruleForm.pass"
+              v-model="ruleForm.password"
               autocomplete="off"
               show-message
             ></el-input>
@@ -94,27 +94,46 @@ export default {
     return {
       //用户名和密码
       ruleForm: {
-        pass: "",
-        userName: "",
+        password: "",
+        username: "",
       },
       //引入上方表单验证规则
       rules: {
-        userName: [{ validator: checkName, trigger: "blur" }],
-        pass: [{ validator: validatePass, trigger: "blur" }], 
+        // username: [{ validator: checkName, trigger: "blur" }],
+        // password: [{ validator: validatePass, trigger: "blur" }], 
       },
     };
   },
   methods: {
     // 登录按钮的回调
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
+      submitForm(formName) {
+      this.$refs[formName].validate(async (valid) => {
         if (valid) {
-          alert("submit!");
-        } else {
-          console.log("error submit!!");
-          return false;
+          //表单验证成功
+          // this.$store.dispatch('Login',this.ruleForm)
+          try {
+            //用户名密码正确
+          let result = await this.$API.reqUserLogin(this.ruleForm)
+          console.log(result);
+          if(result.code == 200){
+            console.log(result);
+            this.$router.push({name:"Home"})
+          }else{
+            //用户名密码错误
+            this.$message({
+          type: "error",
+          message: result.msg,
+        });
+          }
+        //登录的路由组件：看路由当中是否包含query参数，有就跳到query参数指定的路由，没有就跳到home
+        // let toPath = this.$route.query.redirect;
+        //  this.$router.push('/home');
+        } catch (error) {
+          alert(error.message)
+        }
         }
       });
+      
     },
     // 重置按钮的回调
     resetForm(formName) {

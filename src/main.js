@@ -12,7 +12,7 @@ Vue.use(ElementUI)
 Vue.config.productionTip = false
 
 //引入相关API请求接口
-import API from '@/api'
+import * as API from '@/api'
 //注册全局组件
 import NavigationBar from '@/components/navigationBar';
 import  Footer  from '@/components/footer'

@@ -23,17 +23,17 @@
           label-width="100px"
           class="demo-ruleForm"
         >
-          <el-form-item label="账号" prop="userName">
+          <el-form-item label="账号" prop="username">
             <el-input
               type="input"
-              v-model.number="ruleForm.userName"
+              v-model.number="ruleForm.username"
               autocomplete="off"
             ></el-input>
           </el-form-item>
-          <el-form-item label="密码" prop="pass">
+          <el-form-item label="密码" prop="password">
             <el-input
               type="password"
-              v-model="ruleForm.pass"
+              v-model="ruleForm.password"
               autocomplete="off"
               show-message
             ></el-input>
@@ -72,7 +72,7 @@ export default {
       let reg_tel = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/;
       if (!value) {
         return callback(new Error("账号不能为空"));
-        
+        validator
       }
       setTimeout(() => {
         if (!Number.isInteger(value)) {
@@ -101,7 +101,7 @@ export default {
     var validatePass2 = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请再次输入密码"));
-      } else if (value !== this.ruleForm.pass) {
+      } else if (value !== this.ruleForm.password) {
         callback(new Error("两次输入密码不一致!"));
       } else {
         callback();
@@ -109,27 +109,42 @@ export default {
     };
     return {
       ruleForm: {
-        pass: "",
+        password: "",
         checkPass: "",
-        age: "",
+        username: "",
       },
       rules: {
-        pass: [{ validator: validatePass, trigger: "blur" }],
+        password: [{ validator: validatePass, trigger: "blur" }],
         checkPass: [{ validator: validatePass2, trigger: "blur" }],
-        userName: [{ validator: checkName, trigger: "blur" }],
+        username: [{ validator: checkName, trigger: "blur" }],
       },
     };
   },
   methods: {
     submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(async (valid) => {
         if (valid) {
-          alert("submit!");
-        } else {
-          console.log("error submit!!");
-          return false;
+          // this.$store.dispatch('Login',this.ruleForm)
+          try {
+        
+          let result = await this.$API.reqUserRegister(this.ruleForm)
+          if(result.code == 200){
+            this.$router.push({name:"Login"})
+          }else{
+            this.$message({
+          type: "error",
+          message: result.msg,
+        });
+          }
+        //登录的路由组件：看路由当中是否包含query参数，有就跳到query参数指定的路由，没有就跳到home
+        // let toPath = this.$route.query.redirect;
+        //  this.$router.push('/home');
+        } catch (error) {
+          alert(error.message)
+        }
         }
       });
+      
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
