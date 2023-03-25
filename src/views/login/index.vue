@@ -122,7 +122,7 @@ export default {
     },
     //  跳往注册页面
     toRegister(){
-      this.$router.push({name:Register})
+      this.$router.push({name:'Register'})
     }
 
   },
