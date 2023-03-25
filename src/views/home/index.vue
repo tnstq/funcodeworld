@@ -1,75 +1,19 @@
 <template>
   <div class="content">
-    <div class="header">
-      <div class="logo"><img src="./image/logo.png" alt="" /></div>
-      <div class="nav">
-        <ul>
-          <li>首页</li>
-          <li>作品</li>
-          <li>论坛</li>
-          <li>创作</li>
-        </ul>
-      </div>
-      <div class="search">
-        <div class="c1">
-          作品
-          <svg
-            t="1678158581908"
-            class="icon"
-            viewBox="0 0 1024 1024"
-            version="1.1"
-            xmlns="http://www.w3.org/2000/svg"
-            p-id="4830"
-            width="16"
-            height="16"
-          >
-            <path
-              d="M787.2 380.8c-9.6-9.6-22.4-12.8-35.2-12.8l-480 3.2c-12.8 0-25.6 3.2-35.2 12.8-19.2 19.2-19.2 48 0 67.2l240 240c0 0 0 0 0 0 0 0 0 0 0 0 3.2 3.2 9.6 6.4 12.8 9.6 0 0 3.2 3.2 3.2 3.2 16 6.4 38.4 3.2 51.2-9.6l240-243.2C806.4 428.8 803.2 400 787.2 380.8z"
-              p-id="4831"
-            ></path>
-          </svg>
-        </div>
-        <svg
-          t="1678158204315"
-          class="icon"
-          viewBox="0 0 1024 1024"
-          version="1.1"
-          xmlns="http://www.w3.org/2000/svg"
-          p-id="2773"
-          width="20"
-          height="20"
-        >
-          <path
-            d="M939.904756 905.321487 685.013561 650.430293c27.446389-29.671163 49.319585-63.491009 65.076186-100.738071 18.178883-42.974782 27.396244-88.604147 27.396244-135.620159 0-47.020105-9.217361-92.652541-27.395221-135.630393-17.550543-41.493987-42.668799-78.751283-74.656838-110.737276-31.98804-31.985993-69.247382-57.103225-110.743416-74.653768-42.979899-18.17786-88.617451-27.394198-135.64165-27.394198-47.020105 0-92.652541 9.217361-135.629369 27.395221-41.492963 17.54952-78.750259 42.666752-110.736252 74.653768s-57.103225 69.244312-74.653768 110.737276c-18.17786 42.977852-27.395221 88.609264-27.395221 135.629369 0 47.016012 9.217361 92.644354 27.395221 135.619136 17.550543 41.490917 42.666752 78.746166 74.653768 110.731135s69.243289 57.101178 110.736252 74.649675c42.977852 18.17786 88.610288 27.395221 135.629369 27.395221 47.025222 0 92.660728-9.216338 135.64165-27.394198 23.60062-9.980784 45.823803-22.416598 66.493533-37.164171l258.067689 258.067689c6.994633 6.99361 16.160827 10.490415 25.32702 10.490415s18.332387-3.496805 25.32702-10.490415C953.891976 941.987284 953.891976 919.309731 939.904756 905.321487zM429.047844 690.831336c-152.617067 0-276.779741-124.153463-276.779741-276.760297 0-152.617067 124.162674-276.780764 276.779741-276.780764 152.629348 0 276.802255 124.163697 276.802255 276.780764C705.850098 566.677873 581.677191 690.831336 429.047844 690.831336z"
-            fill="#272636"
-            p-id="2774"
-          ></path>
-        </svg>
-      </div>
-      <div class="sign_login" v-if="!token">
-        <div class="sign" @click="toSign">登录</div>
-        <div class="login" @click="toLogin">注册</div>
-      </div>
-      <div class="haveToken" v-else>
-        <div class="user">
-          <img :src="img" />
-        </div>
-        <div class="login2" @click="outLogin">退出登录</div>
-      </div>
-    </div>
+    <NavigationBar />
     <div class="body">
       <div class="tab">
         <el-tabs v-model="activeName">
-          <el-tab-pane label="全部" name="first"></el-tab-pane>
-          <el-tab-pane label="最新热门" name="second"></el-tab-pane>
-          <el-tab-pane label="最新精华" name="third"></el-tab-pane>
+          <el-tab-pane label="全部" name="first" stretch="true"></el-tab-pane>
+          <el-tab-pane label="热门" name="second"></el-tab-pane>
+          <el-tab-pane label="精华" name="third"></el-tab-pane>
           <el-tab-pane label="最新回复" name="fourth"></el-tab-pane>
           <el-tab-pane label="最新发表" name="wu"></el-tab-pane>
         </el-tabs>
       </div>
-      <div class="table" @click="toDetail" >
+      <div class="table" @click="toDetail">
         <el-table :data="tableData" style="width: 100%">
-          <el-table-column fixed prop="date" label="标题" width="800">
+          <el-table-column fixed prop="date" label="标题" width="800" class="title">
           </el-table-column>
           <el-table-column prop="name" label="标签" width="120">
           </el-table-column>
@@ -92,41 +36,53 @@
           </el-table-column>
         </el-table>
       </div>
-      <el-pagination :layout="pagination" :total="50" class="page" style="margin-bottom:10px" @current-change="handleCurrentChange"> 
+      <el-pagination
+        :layout="pagination"
+        :total="50"
+        class="page"
+        style="margin-bottom: 10px"
+        @current-change="handleCurrentChange"
+      >
       </el-pagination>
       <div class="bigfooter">
         <div id="wangeditor">
-        <div class="bigBox">
-          <div class="box1">
-            <span>标题</span>
-            <input type="text" placeholder="文章标题"  v-model="textTitle" @input="titleChange"/>
+          <div class="bigBox">
+            <div class="box1">
+              <span>标题</span>
+              <input
+                type="text"
+                placeholder="文章标题"
+                v-model="textTitle"
+                @input="titleChange"
+                maxlength="30"
+              />
+            </div>
+            <span class="box2">还可输入{{ eltit }}个字符</span>
           </div>
-          <span class="box2">还可输入{{eltit}}个字符</span>
+          <div class="downbox">内容</div>
+          <div ref="editorElem" class="editorElem"></div>
         </div>
-        <div class="downbox">内容</div>
-        <div ref="editorElem" class="editorElem"></div>
-      </div>
-      <div class="footer">
-        <div class="left">
-          <div class="top">标签</div>
-          <div class="input">{{tagText}}</div>
-          <div class="tag" hit>
-            <el-tag type="info" hit @click="tag1">标签一</el-tag>
-            <el-tag type="info" hit @click="tag2">标签二</el-tag>
-            <el-tag type="info" hit @click="tag3">标签三</el-tag>
-            <el-tag type="info" hit @click="tag4">标签四</el-tag>
-            <el-tag type="info" hit @click="tag5">标签五</el-tag>
+        <div class="footer">
+          <div class="left">
+            <div class="top">标签</div>
+            <div class="input">{{ tagText }}</div>
+            <div class="tag" hit>
+              <el-tag type="info" hit @click="tag1">标签一</el-tag>
+              <el-tag type="info" hit @click="tag2">标签二</el-tag>
+              <el-tag type="info" hit @click="tag3">标签三</el-tag>
+              <el-tag type="info" hit @click="tag4">标签四</el-tag>
+              <el-tag type="info" hit @click="tag5">标签五</el-tag>
+            </div>
+          </div>
+          <div class="right">
+            <input type="text" placeholder="发表帖子" />
+            <el-button type="primary">发表帖子</el-button>
           </div>
         </div>
-        <div class="right">
-          <input type="text" placeholder="发表帖子"/>
-          <el-button type="primary">发表帖子</el-button>
-        </div>
-      </div>
       </div>
     </div>
     <div class="laster">
-      <div class="img"><img src="./image/logo.png" alt=""></div>
+      <div class="img"><img src="./image/logo.png" alt="" /></div>
       <div class="text">
         <span>© Copyright 2022, 趣代码世界. All Rights Reserved.</span>
         <span>皖ICP备2022015871号</span>
@@ -134,7 +90,6 @@
       </div>
     </div>
   </div>
-
 </template>
 
 <script>
@@ -179,12 +134,10 @@ export default {
       text: null,
       activeName: "first",
       flag: false,
-      tagText:'',
-      textTitle:'',
-      eltit:30,
-      fff:false,
+      tagText: "",
+      textTitle: "",
+      eltit: 30,
       pagination: `pager, next`,
-      textTitle2:''
     };
   },
   mounted() {
@@ -232,60 +185,53 @@ export default {
       this.tableData.push(obj);
     },
     watchInfo(row) {
-      if (this.token) {
+      /* if (this.token) {
         this.$router.push({ name: "Detail" });
       } else {
         this.$router.push({ name: "Sign" });
-      }
+      } */
     },
     delect(row) {
       let flag = this.tableData.indexOf(row);
       this.tableData.splice(flag, 1);
     },
-    toDetail(){
-      this.$router.push({name:'Detail'})
+    toDetail() {
+      this.$router.push({ name: "Detail" });
     },
-    tag1(){
-      this.tagText = '标签一'
+    tag1() {
+      this.tagText = "标签一";
     },
-    tag2(){
-      this.tagText = '标签二'
+    tag2() {
+      this.tagText = "标签二";
     },
-    tag3(){
-      this.tagText = '标签三'
+    tag3() {
+      this.tagText = "标签三";
     },
-    tag4(){
-      this.tagText = '标签四'
+    tag4() {
+      this.tagText = "标签四";
     },
-    tag5(){
-      this.tagText = '标签五'
+    tag5() {
+      this.tagText = "标签五";
     },
-    titleChange(){
-      if(this.textTitle.trim().length <= 30){
-        this.eltit = 30 - this.textTitle.trim().length
-      }else if(this.textTitle.trim().length == 31){
-        this.textTitle2 = this.textTitle
-      }
-      else{
-        this.textTitle = this.textTitle2
+    titleChange() {
+      if (this.textTitle.trim().length < 30) {
+        this.eltit = 30 - this.textTitle.trim().length;
+      } else{
         this.$message({
           type: "error",
           message: "输入不能超过30个字符",
         });
-        this.fff = true;
       }
     },
-    handleCurrentChange(page){
-      if(page == 1){
-        this.pagination = `pager, next`
-       }else if(page == 5){
-        this.pagination = `prev, pager`
-       }
-       else{
-        this.pagination = `prev, pager, next`
-       }
-
+    handleCurrentChange(page) {
+      if (page == 1) {
+        this.pagination = `pager, next`;
+      } else if (page == 5) {
+        this.pagination = `prev, pager`;
+      } else {
+        this.pagination = `prev, pager, next`;
       }
+    },
   },
   computed: {
     // ...mapState({
@@ -412,13 +358,20 @@ export default {
 .editorElem,
 .tab {
   padding: 20px 20px;
-  /deep/.el-tabs__item {
-    /* 修改为您想要的文字大小 */
-    font-size: 18px !important;
-  }
+  // /deep/.el-tabs__item {
+  //   /* 修改为您想要的文字大小 */
+  //   font-size: 18px !important;
+  //   text-align: center;
+  // }
+ 
 }
+
 .table {
   padding: 0 20px;
+  /deep/.cell{
+    font-size: 15px;
+    font-weight: 700;
+  }  
 }
 .buttonEditor {
   margin-left: 50px;
@@ -473,6 +426,7 @@ export default {
     font-size: 18px;
     margin-top: 20px;
     margin-left: 20px;
+    
   }
 }
 .downbox {
@@ -482,19 +436,19 @@ export default {
   margin-top: 20px;
   margin-bottom: -10px;
 }
-.footer{
+.footer {
   margin: 20px 20px;
   display: flex;
   justify-content: space-between;
-  .left{
+  .left {
     display: flex;
     flex-direction: column;
-    .top{
+    .top {
       font-size: 15px;
       font-weight: 700;
       margin-bottom: 10px;
     }
-    .input{
+    .input {
       width: 400px;
       height: 40px;
       border: 1px solid #efefef;
@@ -505,14 +459,14 @@ export default {
       color: #6c6363;
       padding-top: 15px;
     }
-    .tag{
-      .el-tag{
+    .tag {
+      .el-tag {
         border-radius: 50px;
-        margin-right: 10px
+        margin-right: 10px;
       }
     }
   }
-  .right{
+  .right {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -524,35 +478,34 @@ export default {
       border-radius: 5px;
       padding: 0 10px;
       font-size: 16px;
-      
     }
     input::-webkit-input-placeholder {
       color: rgb(203, 199, 199);
     }
-    .el-button{
+    .el-button {
       margin-left: 270px;
     }
   }
 }
-.bigfooter{
+.bigfooter {
   background-color: #fff;
   margin: 0 20px;
   padding: 20px 0;
   margin-bottom: 20px;
 }
-.laster{
+.laster {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 50px;
-  .img{
+  .img {
     width: 150px;
     height: 50px;
-    img{
+    img {
       height: 100%;
     }
   }
-  .text{
+  .text {
     margin-top: 30px;
     display: flex;
     flex-direction: column;
@@ -560,4 +513,5 @@ export default {
     font-size: 12px;
   }
 }
+
 </style>
