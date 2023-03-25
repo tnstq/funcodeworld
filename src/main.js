@@ -15,7 +15,9 @@ Vue.config.productionTip = false
 import API from '@/api'
 //注册全局组件
 import NavigationBar from '@/components/navigationBar';
+import  Footer  from '@/components/footer'
 Vue.component(NavigationBar.name,NavigationBar);
+Vue.component(Footer.name,Footer)
 
 //挂载到Vue原型上，任意组件都可以使用API接口
 Vue.prototype.$API = API;

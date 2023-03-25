@@ -70,7 +70,7 @@
           <div class="userCenter-avatar">
             
             <el-dropdown>
-              <span class="el-dropdown-link"> <img src="@/assets/boy.png"  /> </span>
+              <span class="el-dropdown-link"> <img src="@/assets/boy.png" /> </span>
               <el-dropdown-menu slot="dropdown" size="mini">
                 <el-dropdown-item>帖子</el-dropdown-item>
                 <el-dropdown-item>作品</el-dropdown-item>
@@ -97,6 +97,7 @@ export default {
   margin-top: 20px;
   margin-left: 10px;
   margin-right: 30px;
+  margin-bottom: 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -104,8 +105,8 @@ export default {
     a {
       img {
         display: inline-block;
-        width: 200px;
-        height: 60px;
+        width: 180px;
+        height: 50px;
       }
     }
   }
