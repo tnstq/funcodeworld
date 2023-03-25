@@ -13,7 +13,7 @@
       </div>
       <div class="table" @click="toDetail">
         <el-table :data="tableData" style="width: 100%">
-          <el-table-column fixed prop="date" label="标题" width="800" class="title">
+          <el-table-column fixed prop="date" label="标题" width="650" class="title">
           </el-table-column>
           <el-table-column prop="name" label="标签" width="120">
           </el-table-column>
@@ -75,7 +75,7 @@
             </div>
           </div>
           <div class="right">
-            <input type="text" placeholder="发表帖子" />
+            <!-- <input type="text" placeholder="发表帖子" /> -->
             <el-button type="primary">发表帖子</el-button>
           </div>
         </div>
@@ -144,8 +144,9 @@ export default {
     this.editor = new E(this.$refs.editorElem); //获取组件并构造编辑器
     this.editor.config.onchange = (html) => {
       // 编辑器里的内容
-
-      this.text = this.editor.txt.text(); // 赋值给自己在data中定义的值
+      console.log(html);
+      this.html = this.editor.txt.html(); // 赋值给自己在data中定义的值
+      // console.log(this.html);
     };
     this.editor.create(); // 创建富文本实例
     // this.$store.dispatch("getUserInfo");
@@ -214,7 +215,7 @@ export default {
       this.tagText = "标签五";
     },
     titleChange() {
-      if (this.textTitle.trim().length < 30) {
+      if (this.textTitle.trim().length <=30) {
         this.eltit = 30 - this.textTitle.trim().length;
       } else{
         this.$message({
@@ -358,12 +359,12 @@ export default {
 .editorElem,
 .tab {
   padding: 20px 20px;
-  // /deep/.el-tabs__item {
-  //   /* 修改为您想要的文字大小 */
-  //   font-size: 18px !important;
-  //   text-align: center;
-  // }
- 
+  /deep/.el-tabs__item {
+    /* 修改为您想要的文字大小 */
+    font-size: 18px !important;
+    text-align: center;
+    
+  }
 }
 
 .table {
@@ -461,6 +462,8 @@ export default {
     }
     .tag {
       .el-tag {
+        width: 50px;
+        text-align: center;
         border-radius: 50px;
         margin-right: 10px;
       }
@@ -484,6 +487,10 @@ export default {
     }
     .el-button {
       margin-left: 270px;
+      width: 100px;
+      height: 50px;
+      background-color: #ffdb97;
+      font-size: 15px;
     }
   }
 }

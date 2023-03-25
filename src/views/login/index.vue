@@ -148,7 +148,7 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 
 // 最外面的大盒子
 .bigbox {

@@ -36,7 +36,7 @@
               <button class="dropbtn" id="dropbtn">作品</button>
               <input class="dropInp" id="dropInp" type="text" />
               <button class="dropserach">
-                <img src="@/assets/logo.png" alt="" />
+                <svg t="1679726972013" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3614" width="16" height="16"><path d="M996.944196 911.473544l-197.051231-198.199103a443.142073 443.142073 0 1 0-355.202382 179.386768 440.017313 440.017313 0 0 0 265.540883-89.278875l197.051231 198.007791a63.770625 63.770625 0 1 0 89.661499-90.044123zM127.559265 446.585687a317.131318 317.131318 0 1 1 317.131318 318.853125 318.406731 318.406731 0 0 1-317.131318-318.853125z" fill="#2c2c2c" p-id="3615"></path></svg>
               </button>
 
               <div class="dropdown-content">
@@ -106,7 +106,7 @@ export default {
       img {
         display: inline-block;
         width: 180px;
-        height: 50px;
+
       }
     }
   }
@@ -199,15 +199,15 @@ export default {
           border-radius: 20px;
           height: 20px;
           width: 50px;
-          img {
+          svg {
             width: 20px;
             height: 18px;
           }
         }
-        .dropserach:hover {
-          // border:1px solid #2185D0;
-          background-color: rgba(255, 165, 0, 0.4);
-        }
+        // .dropserach:hover {
+        //   // border:1px solid #2185D0;
+        //   background-color: rgba(255, 165, 0, 0.4);
+        // }
       }
 
       /* 下拉内容（默认隐藏） */
