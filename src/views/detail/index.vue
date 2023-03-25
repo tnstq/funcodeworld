@@ -101,7 +101,7 @@
               <div class="img">
                 <!-- 文章上的三个按钮 -->
               </div>
-              <el-button type="danger" @click="dashang"
+              <el-button type="danger"
                 >打赏<i class="el-icon-present" style="margin-left: 10px"></i
               ></el-button>
               <el-button type="warning"

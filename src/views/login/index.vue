@@ -47,7 +47,7 @@
         </el-form>
         <div class="forget">
           <span>忘记密码</span>
-          <span>没有账号？点击注册</span>
+          <span @click="toRegister">没有账号？点击注册</span>
         </div>
       </div>
     </div>
@@ -61,6 +61,7 @@ export default {
   data() {
     //用户名表单验证规则
     var checkName = (rule, value, callback) => {
+      // 手机号的正则表达式
       let reg_tel = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/;
       if (!value) {
         return callback(new Error("账号不能为空"));
@@ -80,12 +81,15 @@ export default {
     };
     //密码表单验证规则
     var validatePass = (rule, value, callback) => {
+      // 密码的正则表达式，必须包含数字字符和特殊符号
+      let reg_pas = /^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*,\._])[0-9a-zA-Z!@#$%^&*,\\._]{8,16}$/
       if (value === "") {
         callback(new Error("请输入密码"));
-      } else {
-        
-        callback();
-      }
+      } else if (!reg_pas.test(value)){
+            callback(new Error("密码必须包含大小写字母,特殊字符和数字，且长度不低于8位！"));
+      }else {
+            callback();
+          }
     };
     return {
       //用户名和密码
@@ -116,7 +120,10 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-
+    //  跳往注册页面
+    toRegister(){
+      this.$router.push({name:Register})
+    }
 
   },
 };
