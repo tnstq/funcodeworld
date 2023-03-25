@@ -3,7 +3,7 @@
   <footer>
     <div class="footer">
       <div class="footer-logo">
-        <img class="footer-logo-img" src="./assets/logo.png" alt="" />
+        <img class="footer-logo-img" src="@/assets/logo.png" alt="" />
       </div>
       <div class="footer-text">
         <span>© Copyright 2022, 趣代码世界. All Rights Reserved.</span>
