@@ -12,3 +12,7 @@ export const reqUserRegister = (data) => {
     return requests({ url: '/yonghu/register ',data, method: 'post' })
 }
 
+// // test
+// export const reqUserLogin= (data)=>{
+//     return requests({url:'/yonghu/login',method:'post',data})
+// }

@@ -221,7 +221,13 @@ export default {
       margin-bottom: -20px;
       padding: 30px;
       display: flex;
+      position: relative;
       justify-content: space-between;
+      span{
+        position: absolute;
+        right: 10px;
+        top: 0;
+      }
       span:hover{
       color:#f3b544;
     }
