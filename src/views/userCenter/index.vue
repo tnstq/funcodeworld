@@ -1,6 +1,8 @@
 <template>
     <div>
-    <Register/>
+    <NavigationBar/>
+      <WangEditor />
+    <Footer/>
   </div>
 </template>
 
@@ -11,5 +13,7 @@ name:'userCenter',
 </script>
 
 <style lang="less" scoped>
-
+*{
+font-size: 14px;
+}
 </style>

@@ -185,7 +185,7 @@ export default {
       };
       this.tableData.push(obj);
     },
-    watchInfo(row) {
+    watchInfo(row) {iiiiiii
       /* if (this.token) {
         this.$router.push({ name: "Detail" });
       } else {

@@ -25,6 +25,12 @@ export default [
         meta:{show:false}
     },
     {
+        path:'/center',
+        component:()=>import("@/views/userCenter"),
+        name:"Center",
+        meta:{show:false}
+    },
+    {
         path:'*',
         redirect:'/home',
     }
