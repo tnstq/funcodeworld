@@ -35,7 +35,8 @@ requests.interceptors.response.use(
         return res.data;
 },
     (error)=>{
-        return Promise.reject(new Error('faile'));
+        // return Promise.reject(new Error('faile'));
+        console.log('abc');
 })
 
 

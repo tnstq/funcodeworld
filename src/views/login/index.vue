@@ -114,9 +114,11 @@ export default {
           try {
             //用户名密码正确
           let result = await this.$API.reqUserLogin(this.ruleForm)
-          console.log(result);
+          // console.log(result);
           if(result.code == 200){
-            console.log(result);
+            localStorage.setItem("USER",JSON.stringify(result.data))
+            
+            // console.log(result.data);
             this.$router.push({name:"Home"})
           }else{
             //用户名密码错误

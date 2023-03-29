@@ -3,38 +3,91 @@
     <NavigationBar />
     <div class="body">
       <div class="tab">
-        <el-tabs v-model="activeName">
-          <el-tab-pane label="全部" name="first" stretch="true"></el-tab-pane>
-          <el-tab-pane label="热门" name="second"></el-tab-pane>
-          <el-tab-pane label="精华" name="third"></el-tab-pane>
+        <el-tabs v-model="activeName" @tab-click="handleClick">
+          <el-tab-pane label="全部" name="first">
+            <div class="table" @click="toDetail">
+              <el-table :data="tableData" style="width: 100%">
+                <el-table-column
+                  fixed
+                  prop="title"
+                  label="标题"
+                  width="650"
+                  class="title"
+                >
+                </el-table-column>
+                <el-table-column prop="blogTags" label="标签" width="120">
+                </el-table-column>
+                <el-table-column prop="author" label="作者" width="120">
+                </el-table-column>
+                <el-table-column prop="views" label="查看/回复" width="120">
+                </el-table-column>
+                <el-table-column
+                  prop="datetime"
+                  label="发表时间"
+                  width="300"
+                  align="center"
+                >
+                </el-table-column>
+              </el-table>
+            </div>
+          </el-tab-pane>
+          <el-tab-pane label="热门" name="second">
+            <div class="table" @click="toDetail">
+              <el-table :data="tableData" style="width: 100%">
+                <el-table-column
+                  fixed
+                  prop="title"
+                  label="标题"
+                  width="650"
+                  class="title"
+                >
+                </el-table-column>
+                <el-table-column prop="blogTags" label="标签" width="120">
+                </el-table-column>
+                <el-table-column prop="author" label="作者" width="120">
+                </el-table-column>
+                <el-table-column prop="views" label="查看/回复" width="120">
+                </el-table-column>
+                <el-table-column
+                  prop="datetime"
+                  label="发表时间"
+                  width="300"
+                  align="center"
+                >
+                </el-table-column>
+              </el-table>
+            </div>
+          </el-tab-pane>
+          <el-tab-pane label="精华" name="third">
+            <div class="table" @click="toDetail">
+              <el-table :data="tableData" style="width: 100%">
+                <el-table-column
+                  fixed
+                  prop="title"
+                  label="标题"
+                  width="650"
+                  class="title"
+                >
+                </el-table-column>
+                <el-table-column prop="blogTags" label="标签" width="120">
+                </el-table-column>
+                <el-table-column prop="author" label="作者" width="120">
+                </el-table-column>
+                <el-table-column prop="views" label="查看/回复" width="120">
+                </el-table-column>
+                <el-table-column
+                  prop="datetime"
+                  label="发表时间"
+                  width="300"
+                  align="center"
+                >
+                </el-table-column>
+              </el-table>
+            </div>
+          </el-tab-pane>
           <el-tab-pane label="最新回复" name="fourth"></el-tab-pane>
           <el-tab-pane label="最新发表" name="wu"></el-tab-pane>
         </el-tabs>
-      </div>
-      <div class="table" @click="toDetail">
-        <el-table :data="tableData" style="width: 100%">
-          <el-table-column fixed prop="date" label="标题" width="650" class="title">
-          </el-table-column>
-          <el-table-column prop="name" label="标签" width="120">
-          </el-table-column>
-          <el-table-column prop="province" label="作者" width="120">
-            <template v-slot="">
-              <div class="biglafei">
-                <div class="lafei"><img src="./image/1.jpeg" alt="" /></div>
-                <div class="lafei2">小帖</div>
-              </div>
-            </template>
-          </el-table-column>
-          <el-table-column prop="city" label="查看/回复" width="120">
-          </el-table-column>
-          <el-table-column
-            prop="address"
-            label="发表时间"
-            width="300"
-            align="center"
-          >
-          </el-table-column>
-        </el-table>
       </div>
       <el-pagination
         :layout="pagination"
@@ -65,18 +118,14 @@
         <div class="footer">
           <div class="left">
             <div class="top">标签</div>
-            <div class="input">{{ tagText }}</div>
+            <input class="input" v-model="tagText">
             <div class="tag" hit>
-              <el-tag type="info" hit @click="tag1">标签一</el-tag>
-              <el-tag type="info" hit @click="tag2">标签二</el-tag>
-              <el-tag type="info" hit @click="tag3">标签三</el-tag>
-              <el-tag type="info" hit @click="tag4">标签四</el-tag>
-              <el-tag type="info" hit @click="tag5">标签五</el-tag>
+              <el-tag type="info" hit v-for="(tag,index) in tags" :key="index" @click="cTag(tag)" >{{tag}}</el-tag>
             </div>
           </div>
           <div class="right">
             <!-- <input type="text" placeholder="发表帖子" /> -->
-            <el-button type="primary">发表帖子</el-button>
+            <el-button type="primary" @click="send">发表帖子</el-button>
           </div>
         </div>
       </div>
@@ -100,36 +149,7 @@ export default {
   name: "Home",
   data() {
     return {
-      tableData: [
-        {
-          date: "科大少年班“创新试点班”材料",
-          name: "其他",
-          address: "13:27",
-          text: "好好好",
-          city: "100/100",
-        },
-        {
-          date: "用Scratch暴力解决数学题",
-          name: "其他",
-          address: "13:27",
-          text: "太好了",
-          city: "100/100",
-        },
-        {
-          date: "NOI 2022年省内选拔的若干规定",
-          name: "其他",
-          address: "13:27",
-          text: "非常好",
-          city: "100/100",
-        },
-        {
-          date: "【择校指南】信息学竞赛学子该选择哪些中学？",
-          name: "其他",
-          address: "13:27",
-          text: "超级好",
-          city: "100/100",
-        },
-      ],
+      tableData: [],
       editor: null,
       text: null,
       activeName: "first",
@@ -138,18 +158,41 @@ export default {
       textTitle: "",
       eltit: 30,
       pagination: `pager, next`,
+      pageAll: {
+        page: 1,
+        pageSize: 10,
+      },
+      userInfo: {},
+      invitation: {
+        id: 'null',
+        title: "",
+        userId: 2,
+        blogTags: "",
+        content: "",
+        isTop: 0,
+        isElite: 1,
+        isHot: 0,
+        views: 0,
+        datetime: "2023-03-23 16:48:45",
+      },
+      // 当前的时间
+      now: "",
+      tags:['python','C++','算法','goLang','java']
     };
   },
   mounted() {
     this.editor = new E(this.$refs.editorElem); //获取组件并构造编辑器
     this.editor.config.onchange = (html) => {
       // 编辑器里的内容
-      console.log(html);
+      this.text = html
       this.html = this.editor.txt.html(); // 赋值给自己在data中定义的值
       // console.log(this.html);
     };
     this.editor.create(); // 创建富文本实例
     // this.$store.dispatch("getUserInfo");
+    this.getEassy();
+    this.userInfo = JSON.parse(localStorage.getItem("USER"));
+    this.now = dayjs().format("YYYY-MM-DD HH:mm:ss");
   },
   methods: {
     toSign() {
@@ -157,6 +200,18 @@ export default {
     },
     toLogin() {
       this.$router.push({ name: "Login" });
+    },
+    // 点击tab栏切换函数
+    handleClick(tab, event) {
+      console.log(tab._props.name);
+      let name = tab._props.name;
+      if (name == "first") {
+        this.getEassy();
+      } else if (name == "second") {
+        this.hotPage();
+      } else if (name == "third") {
+        this.hotPage();
+      }
     },
     // outLogin() {
     //   localStorage.removeItem("NAME");
@@ -185,7 +240,7 @@ export default {
       };
       this.tableData.push(obj);
     },
-    watchInfo(row) {iiiiiii
+    watchInfo(row) {
       /* if (this.token) {
         this.$router.push({ name: "Detail" });
       } else {
@@ -199,25 +254,11 @@ export default {
     toDetail() {
       this.$router.push({ name: "Detail" });
     },
-    tag1() {
-      this.tagText = "标签一";
-    },
-    tag2() {
-      this.tagText = "标签二";
-    },
-    tag3() {
-      this.tagText = "标签三";
-    },
-    tag4() {
-      this.tagText = "标签四";
-    },
-    tag5() {
-      this.tagText = "标签五";
-    },
+
     titleChange() {
-      if (this.textTitle.trim().length <=30) {
+      if (this.textTitle.trim().length <= 30) {
         this.eltit = 30 - this.textTitle.trim().length;
-      } else{
+      } else {
         this.$message({
           type: "error",
           message: "输入不能超过30个字符",
@@ -233,6 +274,52 @@ export default {
         this.pagination = `prev, pager, next`;
       }
     },
+    // 自选小标签
+    cTag(tag){
+      this.tagText = tag
+    },
+    // 获取文章数据
+    async getEassy() {
+      let { page, pageSize } = this.pageAll;
+      // const formData = new FormData();
+      // formData.append('page', page);
+      // formData.append('pageSize', pageSize);
+      // console.log(formData);
+      // console.log({page,pageSize});
+      let result = await this.$API.reqAllpage({ page, pageSize });
+      if (result.code == 200) {
+        // console.log(result.data);
+        this.tableData = result.data.records;
+      }
+    },
+    async hotPage() {
+      let { page, pageSize } = this.pageAll;
+      let result = await this.$API.reqhotpage({ page, pageSize });
+      // console.log(111);
+      if (result.code == 200) {
+        // console.log(result.data);
+        this.tableData = result.data.records;
+      }
+    },
+    async elitepagePage() {
+      let { page, pageSize } = this.pageAll;
+      let result = await this.$API.reqElitepage({ page, pageSize });
+      // console.log(result);
+      if (result.code == 200) {
+        // console.log(result.data);
+        this.tableData = result.data.records;
+      }
+    },
+    async send(){
+      this.invitation.title = this.textTitle
+      this.invitation.userId = this.userInfo.id
+      this.invitation.blogTags = this.tagText
+      this.invitation.content = this.text
+      this.invitation.datetime = this.now
+      await this.$API.reqSendin(this.invitation)
+      location.reload()
+      
+    }
   },
   computed: {
     // ...mapState({
@@ -248,7 +335,7 @@ export default {
   watch: {
     $route() {
       location.reload();
-      console.log(111);
+      // console.log(111);
     },
   },
 };
@@ -258,7 +345,6 @@ export default {
 * {
   margin: 0;
   padding: 0;
-  font-size: 12px;
 }
 .content {
   width: 90vw;
@@ -363,16 +449,15 @@ export default {
     /* 修改为您想要的文字大小 */
     font-size: 18px !important;
     text-align: center;
-    
   }
 }
 
 .table {
   padding: 0 20px;
-  /deep/.cell{
+  /deep/.cell {
     font-size: 15px;
     font-weight: 700;
-  }  
+  }
 }
 .buttonEditor {
   margin-left: 50px;
@@ -427,7 +512,6 @@ export default {
     font-size: 18px;
     margin-top: 20px;
     margin-left: 20px;
-    
   }
 }
 .downbox {
@@ -458,7 +542,6 @@ export default {
       font-size: 16px;
       margin-bottom: 10px;
       color: #6c6363;
-      padding-top: 15px;
     }
     .tag {
       .el-tag {
@@ -520,5 +603,4 @@ export default {
     font-size: 12px;
   }
 }
-
 </style>

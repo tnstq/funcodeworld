@@ -11,7 +11,8 @@ module.exports = defineConfig({
     proxy: {
       // api：请求路径当中需要携带/api，代理服务器才会工作
       '/api': {
-        target: 'http://66nnnc.natappfree.cc',
+        target: 'http://2u5svu.natappfree.cc',
+        // pathRewrite: { '^/dev-api': '' },
         // pathRewrite: { '^/api': '' },  //路径不需要重写，因为此服务器路径当中携带/api
       },
     }

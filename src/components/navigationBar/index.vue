@@ -92,6 +92,14 @@ export default {
 </script>
 
 <style lang="less" scoped>
+*{
+      list-style: none;
+    text-decoration:none;
+    border: none;
+    outline: none;
+    color: black;
+
+}
 .nav-swaper {
   font-size: 16px;
   margin-top: 20px;
