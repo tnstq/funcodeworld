@@ -1,11 +1,17 @@
 import {reqUserLogin,reqAllpage} from '@/api' 
 //登录与注册的模块
 const state = {
-
+    id:0,
+    str:''
 };
 
 const mutations = {
-
+    GETDETAILID(state,id){
+        state.id = id
+    },
+    TOSEARCH(state,str){
+        state.str = str
+    }
 };
 
 const actions = {
@@ -23,6 +29,12 @@ const actions = {
     getEassy({commit},data){
         let result = reqAllpage(data)
         console.log(result);
+    },
+    getDetailId({commit},id){
+        commit('GETDETAILID',id)
+    },
+    toSearch({commit},str){
+            commit('TOSEARCH',str)
     }
 };
 

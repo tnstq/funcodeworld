@@ -5,7 +5,7 @@
       <div class="tab">
         <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="全部" name="first">
-            <div class="table" @click="toDetail">
+            <div class="table">
               <el-table :data="tableData" style="width: 100%">
                 <el-table-column
                   fixed
@@ -14,6 +14,13 @@
                   width="650"
                   class="title"
                 >
+                  <template v-slot="{ row }">
+                    <span
+                      @click="toDetail(row)"
+                      style="display: block; height: 100%; width: 100%"
+                      >{{ row.title }}</span
+                    >
+                  </template>
                 </el-table-column>
                 <el-table-column prop="blogTags" label="标签" width="120">
                 </el-table-column>
@@ -91,7 +98,7 @@
       </div>
       <el-pagination
         :layout="pagination"
-        :total="50"
+        :total="pageAll.total"
         class="page"
         style="margin-bottom: 10px"
         @current-change="handleCurrentChange"
@@ -118,9 +125,16 @@
         <div class="footer">
           <div class="left">
             <div class="top">标签</div>
-            <input class="input" v-model="tagText">
+            <input class="input" v-model="tagText" />
             <div class="tag" hit>
-              <el-tag type="info" hit v-for="(tag,index) in tags" :key="index" @click="cTag(tag)" >{{tag}}</el-tag>
+              <el-tag
+                type="info"
+                hit
+                v-for="(tag, index) in tags"
+                :key="index"
+                @click="cTag(tag)"
+                >{{ tag }}</el-tag
+              >
             </div>
           </div>
           <div class="right">
@@ -143,7 +157,7 @@
 
 <script>
 import E from "wangeditor";
-// import { mapState } from "vuex";
+import { mapState } from "vuex";
 import dayjs from "dayjs";
 export default {
   name: "Home",
@@ -160,11 +174,13 @@ export default {
       pagination: `pager, next`,
       pageAll: {
         page: 1,
-        pageSize: 10,
+        pageSize: 5,
+        total: 0,
+        titleName:''
       },
       userInfo: {},
       invitation: {
-        id: 'null',
+        id: "null",
         title: "",
         userId: 2,
         blogTags: "",
@@ -177,14 +193,14 @@ export default {
       },
       // 当前的时间
       now: "",
-      tags:['python','C++','算法','goLang','java']
+      tags: ["python", "C++", "算法", "goLang", "java"],
     };
   },
   mounted() {
     this.editor = new E(this.$refs.editorElem); //获取组件并构造编辑器
     this.editor.config.onchange = (html) => {
       // 编辑器里的内容
-      this.text = html
+      this.text = html;
       this.html = this.editor.txt.html(); // 赋值给自己在data中定义的值
       // console.log(this.html);
     };
@@ -251,7 +267,9 @@ export default {
       let flag = this.tableData.indexOf(row);
       this.tableData.splice(flag, 1);
     },
-    toDetail() {
+    toDetail(row) {
+      console.log(row.id);
+      this.$store.dispatch("getDetailId", row.id);
       this.$router.push({ name: "Detail" });
     },
 
@@ -273,10 +291,12 @@ export default {
       } else {
         this.pagination = `prev, pager, next`;
       }
+      this.pageAll.page = page;
+      this.getEassy();
     },
     // 自选小标签
-    cTag(tag){
-      this.tagText = tag
+    cTag(tag) {
+      this.tagText = tag;
     },
     // 获取文章数据
     async getEassy() {
@@ -288,7 +308,8 @@ export default {
       // console.log({page,pageSize});
       let result = await this.$API.reqAllpage({ page, pageSize });
       if (result.code == 200) {
-        // console.log(result.data);
+        this.pageAll.total = result.data.total;
+
         this.tableData = result.data.records;
       }
     },
@@ -310,21 +331,40 @@ export default {
         this.tableData = result.data.records;
       }
     },
-    async send(){
-      this.invitation.title = this.textTitle
-      this.invitation.userId = this.userInfo.id
-      this.invitation.blogTags = this.tagText
-      this.invitation.content = this.text
-      this.invitation.datetime = this.now
-      await this.$API.reqSendin(this.invitation)
-      location.reload()
-      
-    }
+    async search() {
+      this.pageAll.titleName = this.str
+      let { page, pageSize,titleName } = this.pageAll;
+      let result = await this.$API.reqSearchpage({ page, pageSize,titleName });
+      if (result.code == 200) {
+        this.pageAll.total = result.data.total;
+
+        this.tableData = result.data.records;
+      }
+    },
+    async send() {
+      this.invitation.title = this.textTitle;
+      this.invitation.userId = this.userInfo.id;
+      this.invitation.blogTags = this.tagText;
+      this.invitation.content = this.text;
+      this.invitation.datetime = this.now;
+      if (!this.textTitle || !this.tagText || !this.text) {
+        return this.$notify.error({
+          title: "错误",
+          message: "文章信息未填写完整",
+        });
+      }
+      await this.$API.reqSendin(this.invitation);
+      this.$message({
+        type: "success",
+        message: "发帖成功~",
+      });
+      location.reload();
+    },
   },
   computed: {
-    // ...mapState({
-    //   token: (state) => state.user.token,
-    // }),
+    ...mapState({
+      str: (state) => state.user.str,
+    }),
     // ...mapState({
     //   name: (state) => state.user.name,
     // }),
@@ -336,6 +376,9 @@ export default {
     $route() {
       location.reload();
       // console.log(111);
+    },
+    str() {
+      this.search()
     },
   },
 };
@@ -602,5 +645,9 @@ export default {
     align-items: center;
     font-size: 12px;
   }
+}
+/deep/.w-e-text-container,
+/deep/.w-e-toolbar {
+  z-index: 0 !important;
 }
 </style>

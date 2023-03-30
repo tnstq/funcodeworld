@@ -3,17 +3,16 @@
     <!-- 修改用户信息 -->
     <div class="userInfo" v-if="showUserInfo">
       <el-upload
-      class="avatar-uploader"
-      action="/dev-api/invitation/page"
-      :show-file-list="false"
-      :on-success="handleAvatarSuccess"
-      :before-upload="beforeAvatarUpload"
-    >
-      <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-      <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-      
-    </el-upload>
-    <el-button type="primary" @click="changeInfo">提交更改</el-button>
+        class="avatar-uploader"
+        action="api/common/upload"
+        :show-file-list="false"
+        :on-success="handleAvatarSuccess"
+        :before-upload="beforeAvatarUpload"
+      >
+        <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+      </el-upload>
+      <el-button type="primary" @click="changeInfo">提交更改</el-button>
     </div>
     <div class="personCenter">
       <!-- 用户简介 -->
@@ -21,14 +20,14 @@
         <!-- 用户简介信息内容 -->
         <div class="personContent">
           <div class="personAvatar" @click="changeUserInfo">
-            <img src="" alt="" />
+            <img src="@/assets/user.jpg" alt="" />
           </div>
           <div class="detailMessage">
-            <li>{{userInfo.username}}</li>
+            <li>{{ userInfo.username }}</li>
             <li class="address">http:/funcodeworld .com/?34258</li>
             <li>
-              <span class="num">发帖：38 </span>
-              <span class="num num2"> 作品:60</span>
+              <span class="num">发帖：{{ invitations.length }} </span>
+              <span class="num num2"> 作品:{{ invitations.length }}</span>
               <span class="num"> 粉丝:99</span>
             </li>
           </div>
@@ -61,10 +60,13 @@
             <!-- 正文1 -->
             <div class="showLi-one">
               <!-- 每一项内容 -->
-              <div class="everyContent" v-for="(invitation,index) in invitations" :key="index">
-                <h1 class="main-title">
-                  {{invitation.content}}
-                  </h1>
+              <div
+                class="everyContent"
+                v-for="(invitation, index) in invitations"
+                :key="index"
+                @click="toDetail(invitation)"
+              >
+                <div class="main-title" v-html="invitation.title"></div>
               </div>
             </div>
           </div>
@@ -82,61 +84,75 @@ export default {
       userLists: ["我的帖子", "我的回复", "喜欢", "收藏"],
       active: 0,
       // 用户头头像
-      imageUrl: '',
-      showUserInfo:false,
+      imageUrl: "",
+      showUserInfo: false,
       /* 用户信息 */
-      userInfo:{},
+      userInfo: {},
       /* 每一条帖子 */
-      invitations:[]
+      invitations: [],
     };
   },
-  mounted(){
-    this.userInfo = JSON.parse(localStorage.getItem('USER'));
-    this.reqUserInf()
+  mounted() {
+    this.userInfo = JSON.parse(localStorage.getItem("USER"));
+    this.reqUserInf();
+    // console.log(this.invitations);
   },
   methods: {
     act(index) {
       this.active = index;
     },
-     handleAvatarSuccess(res, file) {
-        this.imageUrl = URL.createObjectURL(file.raw);
-      },
-      beforeAvatarUpload(file) {
-        const isJPG = file.type === 'image/jpeg';
-        const isLt2M = file.size / 1024 / 1024 < 2;
-
-        if (!isJPG) {
-          this.$message.error('上传头像图片只能是 JPG 格式!');
-        }
-        if (!isLt2M) {
-          this.$message.error('上传头像图片大小不能超过 2MB!');
-        }
-        return isJPG && isLt2M;
-      },
-      // 点击用户头像
-      changeUserInfo(){
-        this.showUserInfo = true;
-      },
-      // 提交按钮
-      changeInfo(){
-        this.showUserInfo = false;
-      },
-      // 获取用户信息
-      async reqUserInf(){
-        let result = await this.$API.reqUserInfo(this.userInfo.id)
-        
-        if(result.code == 200){
-          this.invitations = result.data.invitations
-          console.log(this.userInfo);
-        }
+    handleAvatarSuccess(res, file) {
+      this.imageUrl = URL.createObjectURL(file.raw);
+      // console.log(res);
+    },
+    async beforeAvatarUpload(file) {
+      const isJPG = file.type === "image/jpeg";
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      
+      if (!isJPG) {
+        this.$message.error("上传头像图片只能是 JPG 格式!");
       }
-    }
+      if (!isLt2M) {
+        this.$message.error("上传头像图片大小不能超过 2MB!");
+      }
+      return isJPG && isLt2M;
+    },
+    // 点击用户头像
+    changeUserInfo() {
+      this.showUserInfo = true;
+    },
+    // 提交按钮
+    async changeInfo() {
+      let result = await this.$API.reqAvater()
+      console.log(result);
+      this.showUserInfo = false;
+    },
+    // 获取用户信息
+    async reqUserInf() {
+      let result = await this.$API.reqUserInfo(this.userInfo.id);
+
+      if (result.code == 200) {
+        this.invitations = result.data.invitations;
+
+        // console.log(this.invitations);
+      }
+    },
+    toDetail(i) {
+      this.$store.dispatch("getDetailId", i.id);
+      this.$router.push({ name: "Detail" });
+    },
+  },
 };
 </script>
 
 <style lang="less" scoped>
 * {
   font-size: 16px;
+  list-style: none;
+  text-decoration: none;
+  border: none;
+  outline: none;
+  color: black;
 }
 .briefIntroduction {
   margin: 20px 30px 20px 30px;
@@ -160,6 +176,9 @@ export default {
   width: 60px;
   height: 60px;
   background-color: aliceblue;
+  img {
+    width: 100%;
+  }
 }
 
 .num {
@@ -201,7 +220,6 @@ export default {
 }
 /*  */
 .personDetail {
-  height: 800px;
   margin: 20px 30px 20px 30px;
   padding: 20px 0 20px 20px;
   background-color: lightgray;
@@ -244,26 +262,25 @@ export default {
     //   导航菜单对应内用样式
     .mianContent {
       //   margin-left: 70px;
-      .main-title{
+      .main-title {
         background-color: #fff;
         width: 80vw;
         height: 100px;
+        overflow: hidden;
         margin-bottom: 20px;
         line-height: 100px;
         font-size: 24px;
         padding-left: 20px;
         box-sizing: border-box;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
       }
     }
   }
 }
-
-
 </style>
 
 <style>
-.userInfo{
+.userInfo {
   position: absolute;
   left: 30%;
   top: 25%;
@@ -272,8 +289,8 @@ export default {
   height: 500px;
 }
 /* 用户头像上传的样式 */
-.avatar-uploader{
-margin: 50px;
+.avatar-uploader {
+  margin: 50px;
 }
 .avatar-uploader .el-upload {
   border: 1px dashed #d9d9d9;

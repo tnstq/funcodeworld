@@ -24,12 +24,25 @@ export const reqhotpage = (data) => {
 export const reqElitepage = (data) => {
     return requests({ url: `/invitation/ElitePage?page=${data.page}&pageSize=${data.pageSize}`,method: 'get' })
 }
+
+export const reqSearchpage = (data) => {
+    return requests({ url: `/invitation/page?page=${data.page}&pageSize=${data.pageSize}&titleName=${data.titleName}`,method: 'get' })
+}
+
 export const reqUserInfo = (id) => {
     return requests({ url: `/user/${id}`,method: 'get' })
 }
 
 export const reqSendin = (data) => {
     return requests({ url: `invitation`,data,method: 'post' })
+}
+
+export const reqDetail = (id) => {
+    return requests({ url: `invitation/${id}`,method: 'get' })
+}
+
+export const reqAvater = ()=>{
+    return requests({url:'/common/download',method:'get'})
 }
 // test
 // export const reqUserLogin= (data)=>{

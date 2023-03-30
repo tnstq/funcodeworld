@@ -34,8 +34,8 @@
           <div class="nav-swaper-input-outer">
             <div class="dropdown">
               <button class="dropbtn" id="dropbtn">作品</button>
-              <input class="dropInp" id="dropInp" type="text" />
-              <button class="dropserach">
+              <input class="dropInp" id="dropInp" type="text" v-model="search"/>
+              <button class="dropserach" @click="toSearch">
                 <svg t="1679726972013" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3614" width="16" height="16"><path d="M996.944196 911.473544l-197.051231-198.199103a443.142073 443.142073 0 1 0-355.202382 179.386768 440.017313 440.017313 0 0 0 265.540883-89.278875l197.051231 198.007791a63.770625 63.770625 0 1 0 89.661499-90.044123zM127.559265 446.585687a317.131318 317.131318 0 1 1 317.131318 318.853125 318.406731 318.406731 0 0 1-317.131318-318.853125z" fill="#2c2c2c" p-id="3615"></path></svg>
               </button>
 
@@ -70,7 +70,7 @@
           <div class="userCenter-avatar">
             
             <el-dropdown>
-              <span class="el-dropdown-link"> <img src="@/assets/boy.png" /> </span>
+              <span class="el-dropdown-link" @click="toCenter"> <img src="@/assets/boy.png" /> </span>
               <el-dropdown-menu slot="dropdown" size="mini">
                 <el-dropdown-item>帖子</el-dropdown-item>
                 <el-dropdown-item>作品</el-dropdown-item>
@@ -88,6 +88,19 @@
 export default {
   // 导航栏
   name: "NavigationBar",
+  data() {
+    return {
+      search:''
+    }
+  },
+  methods:{
+    toCenter(){
+      this.$router.push({name:'Center'})
+    },
+    toSearch(){
+      this.$store.dispatch('toSearch',this.search)
+    }
+  }
 };
 </script>
 
@@ -265,4 +278,21 @@ export default {
     }
   }
 }
+
+
+@media screen and (max-width: 1200px) {
+      .nav-swaper{
+        width: 100%;
+        height: 5rem;
+        display: flex;
+        flex-wrap: wrap;
+        li{
+          display: none;
+        }
+        .nav-swaper-lists{
+          display: block;
+          margin: 0 auto;
+        }
+      }
+  }
 </style>

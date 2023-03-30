@@ -114,9 +114,9 @@ export default {
         username: "",
       },
       rules: {
-        password: [{ validator: validatePass, trigger: "blur" }],
-        checkPass: [{ validator: validatePass2, trigger: "blur" }],
-        username: [{ validator: checkName, trigger: "blur" }],
+        // password: [{ validator: validatePass, trigger: "blur" }],
+        // checkPass: [{ validator: validatePass2, trigger: "blur" }],
+        // username: [{ validator: checkName, trigger: "blur" }],
       },
     };
   },
@@ -244,5 +244,28 @@ export default {
     opacity: 1;
   }
 }
-
+@media screen and (max-width: 1200px) {
+      .bigbox{
+        width: 100%;
+        .left{
+          display: none;
+        }
+        .right{
+          width: 100%;
+          .form{
+            background-color: #fff;
+            h2{
+              margin-left: 0;
+            }
+            /deep/.el-form{
+              margin-left: -3rem;
+            }
+            .forget{
+              justify-content: space-between;
+              padding: 0;
+            }
+          }
+        }
+      }
+  }
 </style>
